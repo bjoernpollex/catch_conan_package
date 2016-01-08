@@ -1,4 +1,4 @@
-from conans import ConanFile, CMake
+from conans import ConanFile
 from conans.tools import download, unzip
 
 
