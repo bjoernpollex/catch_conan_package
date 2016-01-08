@@ -17,3 +17,7 @@ class Catch(ConanFile):
 
     def package(self):
         self.copy("*", dst="include", src="Catch-{0}/include".format(self.version))
+
+    def package_info(self):
+        self.cpp_info.libdirs = []
+        self.cpp_info.resdirs = []
