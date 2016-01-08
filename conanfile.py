@@ -1,5 +1,8 @@
+from contextlib import closing
+from tarfile import open as taropen
+from urllib2 import urlopen
+
 from conans import ConanFile
-from conans.tools import download, unzip
 
 
 class Catch(ConanFile):
@@ -7,10 +10,10 @@ class Catch(ConanFile):
     version = "1.3.0"
 
     def source(self):
-        zip_name = "catch.zip"
-        download("https://github.com/philsquared/Catch/archive/v{0}.zip".format(self.version),
-                 zip_name)
-        unzip(zip_name)
+        release_url = "https://github.com/philsquared/Catch/archive/v{0}.tar.gz".format(self.version)
+        with closing(urlopen(release_url)) as dl:
+            with taropen(mode='r|gz', fileobj=dl) as archive:
+                archive.extractall()
 
     def package(self):
         self.copy("*", dst="include", src="Catch-{0}/include".format(self.version))
